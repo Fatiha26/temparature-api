@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Weat</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input type="text" id="cityName" class="form-control" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-danger" onclick="citySearch()">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <h1 id="temp-city">Dhaka</h1>
+            <h3 id="temp"><span>38.06</span>&deg;C</h3>
+            <h1 class="lead" id="condition">Clouds</h1>
+        </div>
+    </div>
+
+    <script>
+        var apiKey ='83948b93e9a7ce44fb1649dc22aeb53e';
+        function citySearch () {
+            const city = document.getElementById('cityName').value;
+            const queryURL = 'https://api.openweathermap.org/data/2.5/weather?q='+ city +'&appid='+ apiKey;
+
+        fetch(queryURL)
+        .then(res => res.json())
+        .then( data => {
+            display(data);
+        })
+        document.getElementById('cityName').value ='';
+        }
+        function display(id) {
+    var celsius = Math.round(parseFloat(id.main.temp)-273.15);
+    var celsius1 = Math.round(parseFloat(id.main.feels_like)-273.15);
+
+    document.getElementById('temp-city').innerHTML = id.name;
+    document.getElementById('temp').innerHTML = celsius + ' ' +'&deg;C';
+    document.getElementById('condition').innerHTML = id.weather[0].main;
+    document.getElementById('condition-icon').src = "https://openweathermap.org/img/w/"+id.weather[0].icon+".png";
+
+}
+    </script>
+</body>
+   
+</html>
